@@ -1,0 +1,59 @@
+python wikipedia_scraper.py
+import requests
+from bs4 import BeautifulSoup
+from docx import Document
+
+# Define the URL to start scraping from (main page of English Wikipedia)
+url = 'https://en.wikipedia.org/wiki/Main_Page'
+
+# Initialize a document object for Word output
+document = Document()
+
+# Create a function to scrape the content of a single page and add it to the Word document
+def scrape_page(url):
+    # Send a GET request to the URL and retrieve the HTML content
+    response = requests.get(url)
+    html_content = response.text
+
+    # Use BeautifulSoup to parse the HTML content
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    # Extract the page title and add it to the Word document as a heading
+    page_title = soup.find('h1', {'id': 'firstHeading'}).text
+    document.add_heading(page_title, level=1)
+
+    # Extract the page content and add it to the Word document as a paragraph
+    page_content = soup.find('div', {'class': 'mw-parser-output'}).text
+    document.add_paragraph(page_content)
+
+    # Extract all the citations on the page and add them to the Word document as a numbered list
+    citations = soup.find_all('sup', {'class': 'reference'})
+    if citations:
+        document.add_heading('Citations', level=2)
+        citation_list = document.add_paragraph().add_run('')
+        for i, citation in enumerate(citations):
+            if citation.get('id'):
+                citation_text = citation.find('a').text
+                citation_list.add_text(f'{i+1}. {citation_text}\n')
+
+    # Extract all the sources on the page and add them to the Word document as a bulleted list
+    sources = soup.find_all('li', {'class': 'citation'})
+    if sources:
+        document.add_heading('Sources', level=2)
+        source_list = document.add_paragraph().add_run('')
+        for source in sources:
+            source_text = source.text.strip()
+            source_list.add_text(f'• {source_text}\n')
+
+    # Recursively scrape all linked pages on the page and add their content to the Word document
+    for link in soup.find_all('a'):
+        if link.get('href') and link.get('href').startswith('/wiki/'):
+            linked_page_url = 'https://en.wikipedia.org' + link.get('href')
+            scrape_page(linked_page_url)
+
+# Call the scrape_page function to start scraping from the main page
+scrape_page(url)
+
+# Save the Word document as a file
+document.save('wikipedia_scraped.docx'
+
