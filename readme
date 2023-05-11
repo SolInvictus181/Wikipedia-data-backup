@@ -1,0 +1,9 @@
+Assuming it takes 1 second to scrape all the data in a single article and an additional second to load the next article, scraping all 6.3 million articles on English Wikipedia would take approximately:
+
+6.3 million articles x 2 seconds per article = 12.6 million seconds
+
+This is equivalent to:
+
+12.6 million seconds ÷ 60 seconds per minute ÷ 60 minutes per hour ÷ 24 hours per day ≈ 146.3 days
+
+So, theoretically, it would take approximately 146.3 days (or about 4.9 months) to scrape all of the English Wikipedia articles using this approach. However, it's worth noting that this calculation assumes that there are no errors, delays, or other issues that might slow down the scraping process. In practice, the actual time required could be longer or shorter depending on various factors, including the speed of your internet connection and the processing power of your computer.
