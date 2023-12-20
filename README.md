@@ -16,16 +16,16 @@ You can install these libraries using `pip`:
 
 ```bash
 pip install requests beautifulsoup4 python-docx
-Usage
+
+## Usage
 Clone this repository to your local machine or download the wikipedia_scraper.py file.
 
 Open a terminal or command prompt and navigate to the directory containing wikipedia_scraper.py.
 
 Run the script using Python:
 
-bash
-Copy code
 python wikipedia_scraper.py
+
 The script will start scraping content from the Main Page of English Wikipedia by default. You can change the url variable in the script to specify a different Wikipedia page if needed.
 
 The scraped content will be saved to a Word document named wikipedia_scraped.docx in the same directory as the script.
